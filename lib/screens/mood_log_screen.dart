@@ -101,136 +101,143 @@ class _MoodLogScreenState extends State<MoodLogScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Text(
-                    'How are you feeling today?',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const SizedBox(height: 16),
-                  if (_entryExists)
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.green.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.green),
-                      ),
-                      child: const Row(
-                        children: [
-                          Icon(Icons.check_circle, color: Colors.green),
-                          SizedBox(width: 8),
-                          Text('Mood already logged for today'),
-                        ],
-                      ),
+    return SafeArea(
+      child: SingleChildScrollView(
+        padding: EdgeInsets.only(
+          left: 16.0,
+          right: 16.0,
+          top: 16.0,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 16.0,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Text(
+                      'How are you feeling today?',
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Select your mood:',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 16),
-                  Wrap(
-                    spacing: 12,
-                    runSpacing: 12,
-                    children: MoodType.values.map((mood) {
-                      final isSelected = _selectedMood == mood;
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectedMood = mood;
-                          });
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? MoodEntry.getMoodColor(mood)
-                                : Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(12),
-                            border: isSelected
-                                ? Border.all(color: Colors.black, width: 2)
-                                : null,
-                          ),
-                          child: Column(
-                            children: [
-                              Text(
-                                MoodEntry.getMoodEmoji(mood),
-                                style: const TextStyle(fontSize: 32),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                mood.name.toUpperCase(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: isSelected
-                                      ? Colors.black
-                                      : Colors.grey,
-                                ),
-                              ),
-                            ],
-                          ),
+                    const SizedBox(height: 16),
+                    if (_entryExists)
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.green.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.green),
                         ),
-                      );
-                    }).toList(),
-                  ),
-                ],
+                        child: const Row(
+                          children: [
+                            Icon(Icons.check_circle, color: Colors.green),
+                            SizedBox(width: 8),
+                            Text('Mood already logged for today'),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 24),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Add a note (optional):',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _noteController,
-                    maxLines: 3,
-                    decoration: const InputDecoration(
-                      hintText: 'How was your day?',
-                      border: OutlineInputBorder(),
+            const SizedBox(height: 24),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Select your mood:',
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 16),
+                    Wrap(
+                      spacing: 12,
+                      runSpacing: 12,
+                      children: MoodType.values.map((mood) {
+                        final isSelected = _selectedMood == mood;
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selectedMood = mood;
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? MoodEntry.getMoodColor(mood)
+                                  : Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(12),
+                              border: isSelected
+                                  ? Border.all(color: Colors.black, width: 2)
+                                  : null,
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  MoodEntry.getMoodEmoji(mood),
+                                  style: const TextStyle(fontSize: 32),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  mood.name.toUpperCase(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: isSelected
+                                        ? Colors.black
+                                        : Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 24),
-          SizedBox(
-            height: 50,
-            child: ElevatedButton(
-              onPressed: _isLoading || _entryExists ? null : _saveMood,
-              child: _isLoading
-                  ? const CircularProgressIndicator()
-                  : const Text('Save Mood'),
+            const SizedBox(height: 24),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Add a note (optional):',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _noteController,
+                      maxLines: 3,
+                      decoration: const InputDecoration(
+                        hintText: 'How was your day?',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 24),
+            SizedBox(
+              height: 50,
+              child: ElevatedButton(
+                onPressed: _isLoading || _entryExists ? null : _saveMood,
+                child: _isLoading
+                    ? const CircularProgressIndicator()
+                    : const Text('Save Mood'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
